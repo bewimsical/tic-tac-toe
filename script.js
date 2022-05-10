@@ -14,6 +14,16 @@ let singlePlayer = document.querySelector('#single')
 let multiPlayer = document.querySelector('#multi')
 let xTurn = true;
 let numberOfPlayers = 2
+let winCases = {
+    win123:[pos1, pos2, pos3],
+    win456:[pos4, pos5, pos6],
+    win789:[pos7, pos8, pos9],
+    win147:[pos1, pos4, pos7],
+    win258:[pos2, pos5, pos8],
+    win369:[pos3, pos6, pos9],
+    win159:[pos1, pos5, pos9],
+    win357:[pos3, pos5, pos7]
+  }
 
 anyPos.forEach((block)=>{
   block.addEventListener('click', markPos)
@@ -41,6 +51,22 @@ function multiPlayerGame() {
   reset()
   console.log(numberOfPlayers)
 }
+//AI block function
+function blockWin(mark){
+  for (let key in winCases){
+    for (let i =0; i < winCases[key].length; i++){
+      if(winCases[key][i].innerText) continue;
+      let blockVal = winCases[key][i].innerText
+      winCases[key][i].innerText = mark
+      let isWin = winCases[key].every(pos => pos.innerText === mark)
+      winCases[key][i].innerText = blockVal
+      if(isWin){
+        return winCases[key][i]
+      }
+    }
+  }
+}
+console.log(blockWin('X'))
 
 //place markers
 function markPos(){
@@ -56,15 +82,25 @@ function markPos(){
     }
   } else if( numberOfPlayers == 1 && winner.innerText == ''){
        if (xTurn && this.innerText === '') {
-        console.log('single Player Mode Activated')
          this.innerText = 'X'
          xTurn = false
         winCheck()
-         if (winner.innerText == ''){
-          setTimeout(() => {
-            let emptyPos =  [...anyPos].filter(pos => pos.innerText === '')
-            let index = Math.floor(Math.random() * emptyPos.length)
-            emptyPos[index].innerText = 'O'
+         //totally random placement of O
+         if (winner.innerText == ''){ 
+           setTimeout(() => {
+            let blockTestX = blockWin('X')
+            let blockTestO = blockWin('O')
+            if (blockTestO){
+              blockTestO.innerText = 'O'
+            } else if (blockTestX){
+              blockTestX.innerText = 'O'
+              } else if (!pos5.innerText){
+                 pos5.innerText = 'O'
+                } else {
+                    let emptyPos =  [...anyPos].filter(pos => pos.innerText === '')
+                    let index = Math.floor(Math.random() * emptyPos.length)
+                    emptyPos[index].innerText = 'O'
+            }
             winCheck() 
             xTurn = true
           }, Math.random() * 1500) 
@@ -73,6 +109,8 @@ function markPos(){
       } 
   }
 }
+
+
 //check for winner
 function winCheck() {
   // Wins
@@ -90,18 +128,7 @@ function winCheck() {
   ]
   let noWinner =  allPos.map(block => block != '' ? block = 1 :  block = 0).reduce((acc, num) => acc + num, 0)
   let strike = ''
-  console.log('strike =' + strike)
-  let winCases = {
-    win123:[pos1, pos2, pos3],
-    win456:[pos4, pos5, pos6],
-    win789:[pos7, pos8, pos9],
-    win147:[pos1, pos4, pos7],
-    win258:[pos2, pos5, pos8],
-    win369:[pos3, pos6, pos9],
-    win159:[pos1, pos5, pos9],
-    win357:[pos3, pos5, pos7]
-  }
-
+  
   for (let key in winCases){
     let isWin = winCases[key].every(pos => pos.innerText && pos.innerText === winCases[key][0].innerText)
     if (isWin){
