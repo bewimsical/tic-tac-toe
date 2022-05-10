@@ -49,11 +49,13 @@ header,
 }
 
 .color, 
-.number {
+.number,
+.shape,
+.shape.square {
   height: 25px;
   width: 30px;
-  border: 2px solid #000000;
   margin: 5px;
+  border: 2px solid #000000;
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
@@ -62,14 +64,24 @@ header,
   transition: transform 0.2s;
 }
 
+.shape {
+  background: #ffffff;
+}
+
 .color:hover,
-.number:hover {
+.number:hover,
+.shape:hover {
   transform: scale(1.2);
 }
 
 .number.active {
   font-weight: 700;
   background: rgba(255,255,255,0.5)
+}
+
+.shape.curved {
+  border-radius: 10px;
+  border: none;
 }
 
 #blue {
@@ -106,7 +118,6 @@ h1 {
     "one   two   three"
     "four  five  six"
     "seven eight nine"
-  
 }
 
 .block {
@@ -116,6 +127,26 @@ h1 {
   background-color: #ffffff;
   cursor: pointer;
 }
+
+/* add curved edges to theme */
+body.pink .curvedEdge{
+  border-color: #A14A85;
+}
+
+body.blue .curvedEdge{
+  border-color: #257CBA;
+}
+
+body.green .curvedEdge{
+  border-color: #236343;
+}
+
+.block.curvedEdge {
+  border-radius: 10px;
+  border-width: 3px;
+}
+
+
 
 .strike{
   position: absolute;

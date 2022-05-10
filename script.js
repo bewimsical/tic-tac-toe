@@ -149,3 +149,23 @@ function makeColor(e){
   document.querySelector('body').classList.add(color)
 }
 
+//shape picker
+document.querySelector('.shape').addEventListener('click', () => {
+  document.querySelector('.shape').classList.contains('curved') ? curveEdges() : squareEdges()})
+
+function curveEdges(){
+  document.querySelectorAll('.block').forEach(block => {
+    block.classList.add('curvedEdge')
+  })
+  document.querySelector('.board').classList.add('curvedEdge')
+  document.querySelector('.shape').classList.remove('curved')
+  
+}
+
+function squareEdges(){
+  document.querySelectorAll('.block').forEach(block => {
+    block.classList.remove('curvedEdge')
+  })
+  document.querySelector('.board').classList.remove('curvedEdge')
+  document.querySelector('.shape').classList.add('curved')
+}
