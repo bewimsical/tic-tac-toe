@@ -24,7 +24,7 @@ let winCases = {
     win159:[pos1, pos5, pos9],
     win357:[pos3, pos5, pos7]
   }
-
+//add event listeners 
 anyPos.forEach((block)=>{
   block.addEventListener('click', markPos)
 });
@@ -68,6 +68,22 @@ function blockWin(mark){
 }
 console.log(blockWin('X'))
 
+function blockWin(mark){
+  for (let key in winCases){
+    for (let i =0; i < winCases[key].length; i++){
+      if(winCases[key][i].innerText) continue;
+      let blockVal = winCases[key][i].innerText
+      winCases[key][i].innerText = mark
+      let isWin = winCases[key].every(pos => pos.innerText === mark)
+      winCases[key][i].innerText = blockVal
+      if(isWin){
+        return winCases[key][i]
+      }
+    }
+  }
+}
+console.log(blockWin('X'))
+
 //place markers
 function markPos(){
   if (numberOfPlayers == 2 && winner.innerText == ''){
@@ -85,7 +101,6 @@ function markPos(){
          this.innerText = 'X'
          xTurn = false
         winCheck()
-         //totally random placement of O
          if (winner.innerText == ''){ 
            setTimeout(() => {
             let blockTestX = blockWin('X')
@@ -113,7 +128,6 @@ function markPos(){
 
 //check for winner
 function winCheck() {
-  // Wins
   let winningPlayer = ''
   let allPos = [
     pos1.innerText,
@@ -160,8 +174,7 @@ function reset() {
   document.querySelector('.popup').classList.add('invisible')
 }
 
-// Reset game at site load
-reset()
+
 
 // color picker
 let colors = ['blue', 'pink', 'green']
@@ -188,7 +201,7 @@ function curveEdges(){
   document.querySelector('.shape').classList.remove('curved')
   
 }
-
+//change board shape
 function squareEdges(){
   document.querySelectorAll('.block').forEach(block => {
     block.classList.remove('curvedEdge')
@@ -196,3 +209,6 @@ function squareEdges(){
   document.querySelector('.board').classList.remove('curvedEdge')
   document.querySelector('.shape').classList.add('curved')
 }
+
+// Reset game at site load
+reset()
