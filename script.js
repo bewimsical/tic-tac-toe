@@ -68,6 +68,22 @@ function blockWin(mark){
 }
 console.log(blockWin('X'))
 
+function blockWin(mark){
+  for (let key in winCases){
+    for (let i =0; i < winCases[key].length; i++){
+      if(winCases[key][i].innerText) continue;
+      let blockVal = winCases[key][i].innerText
+      winCases[key][i].innerText = mark
+      let isWin = winCases[key].every(pos => pos.innerText === mark)
+      winCases[key][i].innerText = blockVal
+      if(isWin){
+        return winCases[key][i]
+      }
+    }
+  }
+}
+console.log(blockWin('X'))
+
 //place markers
 function markPos(){
   if (numberOfPlayers == 2 && winner.innerText == ''){
